@@ -18,12 +18,17 @@
 		{
 			"name": "Ian Back",
 			"role": "Developer (retired)"
+		},
+		{
+			"name": "Florentin Vintila",
+			"role": "Developer, maintainer"
 		}
 	],
 
 	"support": {
 
-		"issues": "https://github.com/mpdf/mpdf/issues",
+		"issues": "https://github.com/florentinvintila/mpdf/issues",
+		"source": "https://github.com/florentinvintila/mpdf",
 		"docs": "http://mpdf.github.io"
 
 	},
