@@ -1203,9 +1203,11 @@ class CssManager
 	{
 		$prop = preg_split('/\s+/', trim($mp));
 		$prop_count = count($prop);
+
 		if ($prop_count === 1) {
 			return ['T' => $prop[0], 'R' => $prop[0], 'B' => $prop[0], 'L' => $prop[0]];
 		}
+
 		if ($prop_count === 2) {
 			return ['T' => $prop[0], 'R' => $prop[1], 'B' => $prop[0], 'L' => $prop[1]];
 		}
@@ -1213,9 +1215,12 @@ class CssManager
 		if ($prop_count === 3) {
 			return ['T' => $prop[0], 'R' => $prop[1], 'B' => $prop[2], 'L' => $prop[1]];
 		}
-		if ($prop_count === 4) {
+
+		// Ignore rule parts after first 4 values (most likely !important)
+		if ($prop_count >= 4) {
 			return ['T' => $prop[0], 'R' => $prop[1], 'B' => $prop[2], 'L' => $prop[3]];
 		}
+
 		return [];
 	}
 
@@ -2250,11 +2255,13 @@ class CssManager
 		}
 
 		if ($this->mpdf->basepathIsLocal) {
+
 			$tr = parse_url($path);
-			$lp = getenv('SCRIPT_NAME');
+			$lp = __FILE__;
 			$ap = realpath($lp);
 			$ap = str_replace("\\", '/', $ap);
 			$docroot = substr($ap, 0, strpos($ap, $lp));
+
 			// WriteHTML parses all paths to full URLs; may be local file name
 			// DOCUMENT_ROOT is not returned on IIS
 			if (!empty($tr['scheme']) && $tr['host'] && !empty($_SERVER['DOCUMENT_ROOT'])) {
@@ -2264,13 +2271,17 @@ class CssManager
 			} else {
 				$localpath = $path;
 			}
+
 			$contents = @file_get_contents($localpath);
+
 		} elseif (!$contents && !ini_get('allow_url_fopen') && function_exists('curl_init')) { // if not use full URL
+
 			$ch = curl_init($path);
 			curl_setopt($ch, CURLOPT_HEADER, 0);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			$contents = curl_exec($ch);
 			curl_close($ch);
+
 		}
 
 		return $contents;
