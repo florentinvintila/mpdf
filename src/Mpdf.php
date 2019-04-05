@@ -1538,6 +1538,16 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		return $this;
 	}
 
+	/**
+	 *
+	 * @return \Psr\Log\LoggerInterface
+	 */
+	public function getLogger()
+	{
+		return $this->logger;
+	}
+
+
 	private function initConfig(array $config)
 	{
 		$configObject = new ConfigVariables();
@@ -18816,7 +18826,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 	{
 		if ($str == '') { // enable all tags
 			// Insert new supported tags in the long string below.
-			$this->enabledtags = "<a><acronym><address><article><aside><b><bdi><bdo><big><blockquote><br><caption><center><cite><code><del><details><dd><div><dl><dt><em><fieldset><figcaption><figure><font><form><h1><h2><h3><h4><h5><h6><hgroup><hr><i><img><input><ins><kbd><legend><li><main><mark><meter><nav><ol><option><p><pre><progress><q><s><samp><section><select><small><span><strike><strong><sub><summary><sup><table><tbody><td><template><textarea><tfoot><th><thead><time><tr><tt><u><ul><var><footer><header><annotation><bookmark><textcircle><barcode><dottab><indexentry><indexinsert><watermarktext><watermarkimage><tts><ttz><tta><column_break><columnbreak><newcolumn><newpage><page_break><pagebreak><formfeed><columns><toc><tocentry><tocpagebreak><pageheader><pagefooter><setpageheader><setpagefooter><sethtmlpageheader><sethtmlpagefooter>";
+			$this->enabledtags = "<a><acronym><address><article><aside><b><bdi><bdo><big><blockquote><br><caption><center><cite><code><del><details><dd><div><dl><dt><em><fieldset><figcaption><figure><font><form><h1><h2><h3><h4><h5><h6><hgroup><hr><i><img><input><ins><kbd><legend><li><main><mark><meter><nav><ol><option><p><pre><progress><q><s><samp><section><select><small><span><label><strike><strong><sub><summary><sup><table><tbody><td><template><textarea><tfoot><th><thead><time><tr><tt><u><ul><var><footer><header><annotation><bookmark><textcircle><barcode><dottab><indexentry><indexinsert><watermarktext><watermarkimage><tts><ttz><tta><column_break><columnbreak><newcolumn><newpage><page_break><pagebreak><formfeed><columns><toc><tocentry><tocpagebreak><pageheader><pagefooter><setpageheader><setpagefooter><sethtmlpageheader><sethtmlpagefooter>";
 		} else {
 			$str = explode(",", $str);
 			foreach ($str as $v) {
@@ -20242,6 +20252,10 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 					unset($c);
 				}
 			}//end of columns
+			/** TODO: tablehide ; set row height to 0 */
+			if (isset($table['hide']) && isset($table['hide'][$i]) && $table['hide'][$i]) {
+				$heightrow = 0;
+			}
 		}//end of rows
 
 		$heightrow = &$table['hr'];
@@ -20501,6 +20515,10 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 	function _tableGetMaxRowHeight($table, $row)
 	{
+		/** TODO: tablehide ; if row is hidden, row max height should be 0 */
+		if (isset($table['hide']) && isset($table['hide'][$row]) && $table['hide'][$row]) {
+			return 0;
+		}
 		if ($row == $table['nc'] - 1) {
 			return $table['hr'][$row];
 		}
@@ -21773,6 +21791,10 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 		// Draw Table Contents and Borders
 		for ($i = 0; $i < $numrows; $i++) { // Rows
+			//TODO: tablehide
+			if (isset($table['hide']) && isset($table['hide'][$i]) && $table['hide'][$i]) {
+				continue;
+			}
 			if ($split && $startrow > 0) {
 				$thnr = (isset($table['is_thead']) ? count($table['is_thead']) : 0);
 				if ($i >= $thnr && $i < $startrow) {
