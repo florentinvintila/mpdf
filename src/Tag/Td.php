@@ -392,6 +392,12 @@ class Td extends Tag
 			$c['nowrap'] = 1;
 		}
 
+		if (isset($attr['HIDE-COL'])) {
+			$c['hidden'] = true;
+			// if column is hidden then set the width to 0% just to hide it
+			$c['wpercent'] = (float) 0;
+		}
+
 		$this->mpdf->cell[$this->mpdf->row][$this->mpdf->col] = $c;
 		unset($c);
 		$this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['s'] = 0;
@@ -439,6 +445,10 @@ class Td extends Tag
 				$this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['maxs'] = $this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['s'];
 			} elseif ($this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['maxs'] < $this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['s']) {
 				$this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['maxs'] = $this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['s'];
+			}
+			// if column is hidden then clear the text also
+			if (isset($this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['hidden']) && $this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['hidden']){
+				unset($this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['textbuffer']);
 			}
 
 			// Remove last <br> if at end of cell
