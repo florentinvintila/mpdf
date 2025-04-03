@@ -2,16 +2,23 @@
 
 namespace Mpdf;
 
-class WriteHtmlTest extends \PHPUnit_Framework_TestCase
+use Mockery;
+
+class WriteHtmlTest extends \Yoast\PHPUnitPolyfills\TestCases\TestCase
 {
 
 	private $mpdf;
 
-	protected function setUp()
+	protected function set_up()
 	{
-		parent::setUp();
-
 		$this->mpdf = new Mpdf();
+	}
+
+	protected function tear_down()
+	{
+		parent::tear_down();
+
+		Mockery::close();
 	}
 
 	/**
@@ -65,7 +72,7 @@ class WriteHtmlTest extends \PHPUnit_Framework_TestCase
 	public function testItThrowsOnUnacceptableMode($mode)
 	{
 		$this->expectException(MpdfException::class);
-		$this->expectExceptionMessageRegExp('/HTMLParserMode/');
+		$this->expectExceptionMessageMatches('/HTMLParserMode/');
 
 		$this->mpdf->WriteHTML('test', $mode);
 	}

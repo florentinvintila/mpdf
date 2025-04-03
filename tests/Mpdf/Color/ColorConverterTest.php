@@ -5,7 +5,7 @@ namespace Mpdf\Color;
 use Mockery;
 use Mpdf\Mpdf;
 
-class ColorConverterTest extends \PHPUnit_Framework_TestCase
+class ColorConverterTest extends \Yoast\PHPUnitPolyfills\TestCases\TestCase
 {
 
 	/**
@@ -19,9 +19,9 @@ class ColorConverterTest extends \PHPUnit_Framework_TestCase
 
 	private $restrictor;
 
-	protected function setUp()
+	protected function set_up()
 	{
-		parent::setUp();
+		parent::set_up();
 
 		$this->mpdf = Mockery::spy(Mpdf::class);
 		$this->restrictor = Mockery::mock(ColorSpaceRestrictor::class);
@@ -31,6 +31,13 @@ class ColorConverterTest extends \PHPUnit_Framework_TestCase
 			$this->modeConverter,
 			$this->restrictor
 		);
+	}
+
+	protected function tear_down()
+	{
+		parent::tear_down();
+
+		Mockery::close();
 	}
 
 	/**
@@ -51,6 +58,10 @@ class ColorConverterTest extends \PHPUnit_Framework_TestCase
 	public function convertColorsProvider()
 	{
 		return [
+
+			['#22pp44', "3\"\x00D\x00\x00"],
+			['#aaaazz', "3\xaa\xaa\x00\x00\x00"],
+			['#gghhii', "3\x00\x00\x00\x00\x00"],
 
 			['#220044', "3\"\x00D\x00\x00"],
 			[255, "1\xff\x00\x00\x00\x00"],
@@ -85,12 +96,11 @@ class ColorConverterTest extends \PHPUnit_Framework_TestCase
 		];
 	}
 
-	/**
-	 * @expectedException \Mpdf\MpdfException
-	 * @expectedExceptionMessage Undefined spot color "PANTONE 534 EC"
-	 */
 	public function testConvertUnknownSpotColor()
 	{
+		$this->expectException(\Mpdf\MpdfException::class);
+		$this->expectExceptionMessage('Undefined spot color "PANTONE 534 EC"');
+
 		$this->converter->convert('spot(PANTONE 534 EC, 100%, 85, 65, 47)');
 	}
 
@@ -147,11 +157,10 @@ class ColorConverterTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame($output, $this->converter->lighten($input));
 	}
 
-	/**
-	 * @expectedException \Mpdf\MpdfException
-	 */
 	public function testLightenWithArray()
 	{
+		$this->expectException(\Mpdf\MpdfException::class);
+
 		$this->converter->lighten([]);
 	}
 
@@ -185,11 +194,10 @@ class ColorConverterTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame($output, $this->converter->darken($input));
 	}
 
-	/**
-	 * @expectedException \Mpdf\MpdfException
-	 */
 	public function testDarkenWithArray()
 	{
+		$this->expectException(\Mpdf\MpdfException::class);
+
 		$this->converter->darken([]);
 	}
 
@@ -215,19 +223,17 @@ class ColorConverterTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame($output, $this->converter->invert($input));
 	}
 
-	/**
-	 * @expectedException \Mpdf\MpdfException
-	 */
 	public function testInvertWithArray()
 	{
+		$this->expectException(\Mpdf\MpdfException::class);
+
 		$this->converter->invert([]);
 	}
 
-	/**
-	 * @expectedException \Mpdf\MpdfException
-	 */
 	public function testInvertNonRgb()
 	{
+		$this->expectException(\Mpdf\MpdfException::class);
+
 		$this->converter->invert("2\x00d\x00\x00\x00");
 	}
 

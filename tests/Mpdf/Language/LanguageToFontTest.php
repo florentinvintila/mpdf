@@ -2,8 +2,18 @@
 
 namespace Mpdf\Language;
 
-class LanguageToFontTest extends \PHPUnit_Framework_TestCase
+use Mockery;
+
+class LanguageToFontTest extends \Yoast\PHPUnitPolyfills\TestCases\TestCase
 {
+
+	protected function tear_down()
+	{
+		parent::tear_down();
+
+		Mockery::close();
+	}
+
 	public function testExtendedImplimentation()
 	{
 		$language = new LanguageToFontTestImplimentation();

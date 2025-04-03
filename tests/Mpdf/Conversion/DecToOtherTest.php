@@ -5,7 +5,7 @@ namespace Mpdf\Conversion;
 use Mockery;
 use Mpdf\Mpdf;
 
-class DecToOtherTest extends \PHPUnit_Framework_TestCase
+class DecToOtherTest extends \Yoast\PHPUnitPolyfills\TestCases\TestCase
 {
 
 	/**
@@ -18,9 +18,9 @@ class DecToOtherTest extends \PHPUnit_Framework_TestCase
 	 */
 	private $mpdf;
 
-	protected function setUp()
+	protected function set_up()
 	{
-		parent::setUp();
+		parent::set_up();
 
 		$this->mpdf = Mockery::spy(Mpdf::class);
 		$this->mpdf->CurrentFont = ['cw' => 0];
@@ -28,6 +28,13 @@ class DecToOtherTest extends \PHPUnit_Framework_TestCase
 		$this->converter = new DecToOther(
 			$this->mpdf
 		);
+	}
+
+	protected function tear_down()
+	{
+		parent::tear_down();
+
+		Mockery::close();
 	}
 
 	/**
