@@ -1,5 +1,5 @@
 {
-	"name": "mpdf/mpdf",
+	"name": "florentinvintila/mpdf",
 	"type": "library",
 	"description": "PHP library generating PDF files from UTF-8 encoded HTML",
 	"keywords": ["php", "pdf", "utf-8"],
@@ -13,12 +13,16 @@
 		{
 			"name": "Ian Back",
 			"role": "Developer (retired)"
+		},
+		{
+			"name": "Florentin Vintila",
+			"role": "Developer, maintainer"
 		}
 	],
 	"support": {
-		"issues": "https://github.com/mpdf/mpdf/issues",
-		"source": "https://github.com/mpdf/mpdf",
-		"docs": "https://mpdf.github.io"
+		"issues": "https://github.com/florentinvintila/mpdf/issues",
+		"source": "https://github.com/florentinvintila/mpdf",
+		"docs": "http://mpdf.github.io"
 	},
 	"require": {
 		"php": "^5.6 || ^7.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",

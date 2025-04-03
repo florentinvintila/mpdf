@@ -48,10 +48,10 @@ Consider supporting development of mPDF with a donation of any value. [Donation 
 Installation
 ============
 
-Official installation method is via composer and its packagist package [mpdf/mpdf](https://packagist.org/packages/mpdf/mpdf).
+Official installation method is via composer and its packagist package [florentinvintila/mpdf](https://packagist.org/packages/florentinvintila/mpdf).
 
 ```
-$ composer require mpdf/mpdf
+$ composer require florentinvintila/mpdf
 ```
 
 Usage
@@ -131,7 +131,7 @@ You can also use the [mpdf tag](https://stackoverflow.com/questions/tagged/mpdf)
 Contributing
 ============
 
-Before submitting issues and pull requests please read the [CONTRIBUTING.md](https://github.com/mpdf/mpdf/blob/development/.github/CONTRIBUTING.md) file.
+Before submitting issues and pull requests please read the [CONTRIBUTING.md](https://github.com/florentinvintila/mpdf/blob/development/.github/CONTRIBUTING.md) file.
 
 Unit Testing
 ============
