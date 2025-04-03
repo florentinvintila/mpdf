@@ -32,7 +32,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 	use FpdiTrait;
 	use MpdfPsrLogAwareTrait;
 
-	const VERSION = '8.2.5';
+	const VERSION = '8.2.6';
 
 	const SCALE = 72 / 25.4;
 
@@ -3921,6 +3921,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 			$regenerate = true;
 		} // mPDF 6
 
+		$glyphIDtoUni = null;
 		if (empty($font['name']) || $font['originalsize'] != $ttfstat['size'] || $regenerate) {
 			$generator = new MetricsGenerator($this->fontCache, $this->fontDescriptor);
 
